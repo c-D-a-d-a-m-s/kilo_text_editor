@@ -1,3 +1,5 @@
+/*** includes ***/
+
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -5,7 +7,11 @@
 #include <termios.h>
 #include <unistd.h>
 
+/*** data ***/
+
 struct termios orig_termios;
+
+/*** terminal ***/
 
 void die(const char *s)
 {
@@ -36,6 +42,8 @@ void enableRawMode()
         die("tcsetattr");
 }
 
+/*** init ***/
+
 int main()
 {
     enableRawMode();
@@ -43,7 +51,7 @@ int main()
     while (1)
     {
         char c = '\0';
-        fi (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN)
+        if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN)
             die("read");
         if (iscntrl(c))
         {
